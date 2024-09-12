@@ -1,0 +1,29 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Presale
+    network: chapel
+    source:
+      address: "0x0a925e8157b0759E9492c33992Df44d087b46693"
+      abi: Presale
+      startBlock: 43636115
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - Purchase
+      abis:
+        - name: Presale
+          file: ./abis/Presale.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Purchase(address,address,uint256,uint256)
+          handler: handlePurchase
+      file: ./src/presale.ts
